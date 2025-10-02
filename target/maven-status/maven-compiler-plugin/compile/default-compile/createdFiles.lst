@@ -7,7 +7,6 @@ com\scm\services\impl\SecurityCustomUserDetailService.class
 com\scm\helpers\Message$MessageBuilder.class
 com\scm\Application.class
 com\scm\services\impl\UserServiceimpl.class
-com\scm\entities\User$UserBuilder.class
 com\scm\helpers\AppConstants.class
 com\scm\helpers\MessageType.class
 com\scm\config\SecurityConfig.class
