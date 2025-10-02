@@ -5,8 +5,10 @@ c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\contol
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\contollers\PageController.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\contollers\RootController.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\contollers\UserController.java
+c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\contollers\VideoController.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\entities\Providers.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\entities\User.java
+c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\entities\Video.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\forms\UserForm.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\helpers\AppConstants.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\helpers\Helper.java
@@ -15,6 +17,7 @@ c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\helper
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\helpers\ResourceNotFoundException.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\helpers\SessionHelper.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\repsitories\UserRepo.java
+c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\repsitories\VideoRepo.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\services\impl\SecurityCustomUserDetailService.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\services\impl\UserServiceimpl.java
 c:\Users\laksh\OneDrive\Documents\GitHub\StreamLite\src\main\java\com\scm\services\UserService.java
