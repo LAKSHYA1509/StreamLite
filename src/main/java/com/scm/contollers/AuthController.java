@@ -1,61 +1,57 @@
-// package com.scm.contollers;
+package com.scm.contollers;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Controller;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-// import com.scm.entities.User;
-// import com.scm.helpers.Message;
-// import com.scm.helpers.MessageType;
-// import com.scm.repsitories.UserRepo;
+import com.scm.entities.User;
+import com.scm.repsitories.UserRepo;
 
-// import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
+import java.util.Map;
 
-// @Controller
-// @RequestMapping("/auth")
-// public class AuthController {
+@Controller
+@RequestMapping("/auth")
+public class AuthController {
 
-//     // verify email
+    @Autowired
+    private UserRepo userRepo;
 
-//     @Autowired
-//     private UserRepo userRepo;
+    @PostMapping("/authenticate")
+    @ResponseBody
+    public ResponseEntity<?> authenticate(@RequestParam("email") String email,
+                                         @RequestParam("password") String password,
+                                         HttpSession session) {
+        try {
+            // Find user by email and password (simple authentication for testing)
+            User user = userRepo.findByEmailAndPassword(email, password).orElse(null);
 
-//     @GetMapping("/verify-email")
-//     public String verifyEmail(
-//             @RequestParam("token") String token, HttpSession session) {
+            if (user != null) {
+                // Store user in session for authentication
+                session.setAttribute("user", user);
+                session.setAttribute("message", "Login successful!");
 
-//         User user = userRepo.findByEmailToken(token).orElse(null);
+                return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Login successful",
+                    "user", email
+                ));
+            } else {
+                return ResponseEntity.status(401).body(Map.of(
+                    "success", false,
+                    "message", "Invalid email or password"
+                ));
+            }
 
-//         if (user != null) {
-//             // user fetch hua hai :: process karna hai
-
-//             if (user.getEmailToken().equals(token)) {
-//                 user.setEmailVerified(true);
-//                 user.setEnabled(true);
-//                 userRepo.save(user);
-//                 session.setAttribute("message", Message.builder()
-//                         .type(MessageType.green)
-//                         .content("You email is verified. Now you can login  ")
-//                         .build());
-//                 return "success_page";
-//             }
-
-//             session.setAttribute("message", Message.builder()
-//                     .type(MessageType.red)
-//                     .content("Email not verified ! Token is not associated with user .")
-//                     .build());
-//             return "error_page";
-
-//         }
-
-//         session.setAttribute("message", Message.builder()
-//                 .type(MessageType.red)
-//                 .content("Email not verified ! Token is not associated with user .")
-//                 .build());
-
-//         return "error_page";
-//     }
-
-// }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                "success", false,
+                "message", "Authentication failed: " + e.getMessage()
+            ));
+        }
+    }
+}
