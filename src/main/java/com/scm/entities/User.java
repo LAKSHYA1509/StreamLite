@@ -1,6 +1,5 @@
 package com.scm.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -8,7 +7,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -59,8 +57,6 @@ public class User implements UserDetails {
     private String providerUserId;
 
     // add more fields if needed
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Contact> contacts = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roleList = new ArrayList<>();

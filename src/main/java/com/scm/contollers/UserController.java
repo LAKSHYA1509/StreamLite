@@ -19,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // user dashbaord page
+    // user dashboard page
 
     @RequestMapping(value = "/dashboard")
     public String userDashboard() {
@@ -31,17 +31,8 @@ public class UserController {
 
     @RequestMapping(value = "/profile")
     public String userProfile(Model model, Authentication authentication) {
-        
+
         return "user/profile";
-    // }
+    }
 
-    // user add contacts page
-
-    // user view contacts
-
-    // user edit contact
-
-    // user delete contact
-
-}
 }
