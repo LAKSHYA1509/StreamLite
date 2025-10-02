@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en"
+    th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+    <div id="content">
+        <h1>Welcome to home page</h1>
+        <p>This is the route page for home controller.</p>
+    </div>
+    <script>
+        console.log("about page");
+    </script>
+</body>
+</html>
