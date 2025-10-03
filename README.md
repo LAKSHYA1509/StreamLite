@@ -1,2 +1,2 @@
-# Yolda-Mini_Project_Scheduler
-Next.js application implemented with PostgreSQL database to effectively manage data
+# StreamLite Application for live video streaming under constrained systems
+Spring boot applications with live streaming HLS.js and ffmpeg working bash
