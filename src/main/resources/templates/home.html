@@ -1,18 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <html lang="en"
-    th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+    <html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-    <title>Home Page</title>
+    <title>StreamLite - Unified Streaming Platform</title>
 </head>
-<body>
+<body class="bg-white">
     <div id="content">
-        <h1>Welcome to home page</h1>
-        <p>This is the route page for home controller.</p>
+        <!-- Removed duplicate header, using base template's navbar instead -->
+        <!-- Fixed all comments to use proper HTML syntax -->
+        
+        <!-- Hero Section -->
+        <div class="min-h-[80vh] flex flex-col items-center justify-center px-6 text-center py-20">
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                Stream <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Everything</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mb-8 leading-relaxed">
+                Your unified streaming platform that bridges Live and VOD. Built with cutting-edge tech for real-time broadcasts and seamless playback, even on constrained hardware.
+            </p>
+            <button class="px-8 py-4 bg-black text-white rounded-full text-base font-medium hover:bg-gray-800 transition shadow-lg hover:shadow-xl">
+                Try StreamLite
+            </button>
+        </div>
+
+        <!-- Features Section Title -->
+        <div class="py-20 px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-20">
+                Your Hybrid Streaming Solution
+            </h2>
+
+            <!-- Feature 1: Live Streaming -->
+            <div class="max-w-6xl mx-auto mb-32">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-3">Real-Time Broadcasting</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Stream live content with ultra-low latency using NGINX RTMP and FFmpeg. Support for RTMP ingest, HLS/DASH delivery, and real-time transcoding ensures your audience experiences broadcasts without delay.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <div class="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-8 shadow-2xl aspect-video flex items-center justify-center">
+                            <div class="bg-black/20 backdrop-blur-sm rounded-2xl p-8 text-white text-center">
+                                <svg class="w-20 h-20 mx-auto mb-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                <p class="text-lg font-semibold">Live Stream Active</p>
+                                <p class="text-sm opacity-90 mt-2">1,247 viewers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2: VOD & Caching -->
+            <div class="max-w-6xl mx-auto mb-32">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2">
+                        <div class="bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 rounded-3xl p-8 shadow-2xl aspect-video flex items-center justify-center">
+                            <div class="bg-black/20 backdrop-blur-sm rounded-2xl p-8 text-white w-full max-w-sm">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-sm font-medium">Video Library</span>
+                                    <span class="text-xs bg-white/20 px-2 py-1 rounded-full">Cached</span>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="bg-white/10 rounded-lg p-3 flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-white/20 rounded"></div>
+                                        <div class="flex-1">
+                                            <div class="h-2 bg-white/30 rounded w-3/4 mb-2"></div>
+                                            <div class="h-2 bg-white/20 rounded w-1/2"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-white/10 rounded-lg p-3 flex items-center gap-3">
+                                        <div class="w-12 h-12 bg-white/20 rounded"></div>
+                                        <div class="flex-1">
+                                            <div class="h-2 bg-white/30 rounded w-3/4 mb-2"></div>
+                                            <div class="h-2 bg-white/20 rounded w-1/2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-3">Intelligent VOD Delivery</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Seamlessly archive live streams and serve on-demand content with Redis-powered adaptive caching. PostgreSQL stores metadata while intelligent prefetching ensures instant playback for your most popular content.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3: Real-Time Interactions -->
+            <div class="max-w-6xl mx-auto mb-32">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-3">Live Chat & Events</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Kafka-powered event streaming enables real-time chat, reactions, and viewer interactions. Spring Boot WebSocket integration ensures millisecond-level message delivery for engaging live experiences.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <div class="bg-gradient-to-br from-purple-500 via-pink-500 to-rose-500 rounded-3xl p-8 shadow-2xl aspect-video flex items-center justify-center">
+                            <div class="bg-black/20 backdrop-blur-sm rounded-2xl p-6 text-white w-full max-w-sm">
+                                <div class="flex items-center gap-2 mb-4">
+                                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                    <span class="text-sm font-medium">Live Chat</span>
+                                </div>
+                                <div class="space-y-3 text-sm">
+                                    <div class="bg-white/10 rounded-lg p-2">
+                                        <span class="font-semibold">Alex:</span> Amazing stream! 🔥
+                                    </div>
+                                    <div class="bg-white/10 rounded-lg p-2">
+                                        <span class="font-semibold">Jordan:</span> Low latency is incredible
+                                    </div>
+                                    <div class="bg-white/10 rounded-lg p-2">
+                                        <span class="font-semibold">Sam:</span> How is this so smooth?
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 4: Monitoring & Analytics -->
+            <div class="max-w-6xl mx-auto mb-32">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2">
+                        <div class="bg-gradient-to-br from-amber-500 via-orange-500 to-red-500 rounded-3xl p-8 shadow-2xl aspect-video flex items-center justify-center">
+                            <div class="bg-black/20 backdrop-blur-sm rounded-2xl p-6 text-white w-full max-w-sm">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-sm font-medium">System Health</span>
+                                    <span class="text-xs bg-green-500 px-2 py-1 rounded-full">Optimal</span>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>CPU Usage</span>
+                                            <span>23%</span>
+                                        </div>
+                                        <div class="h-2 bg-white/20 rounded-full overflow-hidden">
+                                            <div class="h-full bg-white/80 rounded-full" style="width: 23%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Memory</span>
+                                            <span>45%</span>
+                                        </div>
+                                        <div class="h-2 bg-white/20 rounded-full overflow-hidden">
+                                            <div class="h-full bg-white/80 rounded-full" style="width: 45%"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between text-xs mb-1">
+                                            <span>Bandwidth</span>
+                                            <span>67%</span>
+                                        </div>
+                                        <div class="h-2 bg-white/20 rounded-full overflow-hidden">
+                                            <div class="h-full bg-white/80 rounded-full" style="width: 67%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1">
+                        <div class="flex items-start gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-3">Performance Monitoring</h3>
+                                <p class="text-gray-600 leading-relaxed">
+                                    Prometheus and Grafana integration provides real-time insights into system performance, viewer metrics, and resource utilization. Optimize your streaming infrastructure with actionable analytics.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trust/Efficiency Section -->
+        <div class="py-20 px-6 bg-gray-50">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                    Built for Scale, Optimized for Efficiency
+                </h2>
+                <p class="text-lg text-gray-600 mb-12 leading-relaxed">
+                    StreamLite delivers enterprise-grade streaming on minimal resources. Our research-backed architecture proves that high-quality, low-latency streaming doesn't require massive infrastructure.
+                </p>
+                <div class="grid md:grid-cols-4 gap-8 mt-16">
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Secure Streaming</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Low Latency</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Efficient Storage</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">Cloud Ready</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases Section -->
+        <div class="py-20 px-6">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">
+                    How researchers are using StreamLite
+                </h2>
+                <div class="grid md:grid-cols-3 gap-12">
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Edge Computing Research</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Test decentralized streaming architectures and edge-native delivery systems with minimal infrastructure requirements.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Protocol Development</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Experiment with adaptive bitrate algorithms, caching strategies, and real-time event processing patterns.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Accessibility Studies</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Demonstrate cost-effective streaming solutions for educational institutions and underserved communities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack Section -->
+        <div class="py-20 px-6 bg-gray-50">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-6">
+                    Powered by Modern Technology
+                </h2>
+                <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+                    StreamLite integrates industry-leading tools to deliver a robust, scalable streaming platform.
+                </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-green-600 mb-2">Spring Boot</div>
+                        <p class="text-sm text-gray-600">Backend Framework</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-orange-600 mb-2">FFmpeg</div>
+                        <p class="text-sm text-gray-600">Video Processing</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-red-600 mb-2">Redis</div>
+                        <p class="text-sm text-gray-600">Caching Layer</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-blue-600 mb-2">PostgreSQL</div>
+                        <p class="text-sm text-gray-600">Database</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">Kafka</div>
+                        <p class="text-sm text-gray-600">Event Streaming</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-green-700 mb-2">NGINX</div>
+                        <p class="text-sm text-gray-600">RTMP Server</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-orange-500 mb-2">Prometheus</div>
+                        <p class="text-sm text-gray-600">Monitoring</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-md transition">
+                        <div class="text-3xl font-bold text-orange-600 mb-2">Grafana</div>
+                        <p class="text-sm text-gray-600">Analytics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="py-32 px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                    Ready to revolutionize streaming?
+                </h2>
+                <p class="text-xl text-gray-600 mb-10 leading-relaxed">
+                    Join researchers and developers building the future of accessible, efficient multimedia systems.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="px-8 py-4 bg-black text-white rounded-full text-base font-medium hover:bg-gray-800 transition shadow-lg hover:shadow-xl">
+                        Get Started Free
+                    </button>
+                    <button class="px-8 py-4 bg-white text-gray-900 border-2 border-gray-200 rounded-full text-base font-medium hover:border-gray-300 transition">
+                        View Documentation
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 py-12 px-6">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="font-semibold text-gray-900">StreamLite</span>
+                </div>
+                <div class="flex gap-8 text-sm text-gray-600">
+                    <a href="#" class="hover:text-gray-900 transition">Research Paper</a>
+                    <a href="#" class="hover:text-gray-900 transition">GitHub</a>
+                    <a href="#" class="hover:text-gray-900 transition">Documentation</a>
+                    <a href="#" class="hover:text-gray-900 transition">Contact</a>
+                </div>
+                <p class="text-sm text-gray-500">© 2025 StreamLite Research Project</p>
+            </div>
+        </footer>
     </div>
+    
     <script>
-        console.log("about page");
+        console.log("StreamLite homepage loaded");
     </script>
 </body>
 </html>

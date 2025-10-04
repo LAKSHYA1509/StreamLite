@@ -78,7 +78,7 @@ public class VideoController {
         try {
             // Get current authenticated user
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String uploaderId = authentication.getName(); // Assuming email/username is used as ID
+            String uploaderId = authentication.getName();
 
             Video video = new Video();
             video.setTitle(request.getTitle());
@@ -86,6 +86,7 @@ public class VideoController {
             video.setUploaderId(uploaderId);
             video.setUploadDate(LocalDateTime.now().toString());
             video.setHlsPath(request.getHlsPath());
+            videoRepo.save(video);
 
             Video savedVideo = videoRepo.save(video);
             return ResponseEntity.ok(new VideoResponse(savedVideo));

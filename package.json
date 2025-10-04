@@ -5,15 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build-css": "npx tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/output.css --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "tailwindcss": "^3.4.4"
-  },
-  "dependencies": {
-    "scm2.0": "file:"
+    "tailwindcss": "^3.4.18"
   }
 }

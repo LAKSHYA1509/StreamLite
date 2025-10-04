@@ -31,4 +31,12 @@ public class Video {
     @Size(max = 500, message = "HLS path must not exceed 500 characters")
     private String hlsPath;
 
+    public String getHlsPath() {
+        return hlsPath;
+    }
+
+    public void setHlsPath(String hlsPath) {
+        this.hlsPath = hlsPath;
+    }
+
 }
