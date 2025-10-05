@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StreamLite Player</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-8">
+
+    <h1 class="text-3xl font-bold mb-4">Now Playing</h1>
+
+    <video id="videoPlayer" controls class="w-full max-w-4xl rounded-lg shadow-lg"></video>
+
+    <script th:inline="javascript">
+        console.log("Player page loaded");
+        /*<![CDATA[*/
+
+        // Get the videoId from the Spring model
+        const videoId = /*[[${videoId}]]*/ 'default-video-id';
+        const videoPlayer = document.getElementById('videoPlayer');
+        
+        // Construct the CORRECT URL to your playlist file
+        const playlistUrl = `http://localhost:8000/stream/${videoId}/playlist.m3u8`;
+
+        // Check if the browser supports HLS.js
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(playlistUrl);
+            hls.attachMedia(videoPlayer);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                videoPlayer.play();
+            });
+        } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+            // This is a fallback for browsers that DO support HLS natively (like Safari)
+            videoPlayer.src = playlistUrl;
+        }
+
+        /*]]>*/
+    </script>
+
+</body>
+</html>

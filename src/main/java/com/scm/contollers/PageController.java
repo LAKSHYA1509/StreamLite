@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.scm.entities.User;
+import com.scm.entities.Video;
 import com.scm.forms.UserForm;
 import com.scm.helpers.Message;
 import com.scm.helpers.MessageType;
+import com.scm.repsitories.VideoRepo;
 import com.scm.services.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import java.util.List;
 
 @Controller
 public class PageController {
@@ -23,10 +26,14 @@ public class PageController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private VideoRepo videoRepo;
+    
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -76,7 +83,14 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String home() {
+    public String homePage(Model model) {
+        List<Video> videos = videoRepo.findAll();
+        model.addAttribute("videos", videos);
         return "home";
+    }
+
+    @GetMapping("/player")
+    public String player() {
+        return "player";
     }
 }
