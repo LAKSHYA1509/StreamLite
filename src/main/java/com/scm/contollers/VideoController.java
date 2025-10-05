@@ -86,8 +86,7 @@ public class VideoController {
             video.setUploaderId(uploaderId);
             video.setUploadDate(LocalDateTime.now().toString());
             video.setHlsPath(request.getHlsPath());
-            videoRepo.save(video);
-
+            
             Video savedVideo = videoRepo.save(video);
             return ResponseEntity.ok(new VideoResponse(savedVideo));
 

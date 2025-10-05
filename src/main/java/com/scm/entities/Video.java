@@ -7,8 +7,9 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import java.util.UUID;
 
-@Entity(name= "video")
+@Entity
 @Data
 @Table(name = "videos")
 public class Video {
