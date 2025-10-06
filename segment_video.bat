@@ -1,14 +1,15 @@
 @echo off
+setlocal enabledelayedexpansion
 REM Simple VOD Segmentation Script for Windows
 
-if "%1"=="" goto :usage
+if "%~1"=="" goto :usage
 
-set input_file=%1
-set duration=%2
-set output_name=%3
+set "input_file=%~1"
+set "duration=%~2"
+set "output_name=%~3"
 
-if "%duration%"=="" set duration=10
-if "%output_name%"=="" set output_name=playlist
+if "%duration%"=="" set "duration=10"
+if "%output_name%"=="" set "output_name=playlist"
 
 echo ========================================
 echo VOD Segmentation Script
@@ -18,7 +19,6 @@ echo Duration: %duration% seconds
 echo Output: %output_name%
 echo ========================================
 
-REM Check if file exists
 if not exist "%input_file%" (
     echo ERROR: File '%input_file%' not found!
     echo.
@@ -27,7 +27,6 @@ if not exist "%input_file%" (
     goto :error
 )
 
-REM Check FFmpeg
 ffmpeg -version >nul 2>&1
 if errorlevel 1 (
     echo ERROR: FFmpeg not found!
@@ -36,13 +35,12 @@ if errorlevel 1 (
 )
 
 REM Create output directory
-if not exist videos\output mkdir videos\output
+if not exist "videos\output" mkdir "videos\output"
 
 echo.
 echo Converting to HLS format...
 echo.
 
-REM Run FFmpeg
 ffmpeg -i "%input_file%" -c:v copy -c:a copy -start_number 0 -hls_time %duration% -hls_list_size 0 -f hls "videos\output\%output_name%.m3u8"
 
 if errorlevel 1 (
@@ -63,7 +61,7 @@ goto :end
 
 :usage
 echo Usage: segment_video.bat input.mp4 [duration] [name]
-echo Example: segment_video.bat video.mp4 10 playlist
+echo Example: segment_video.bat "video.mp4" 10 playlist
 goto :end
 
 :error
@@ -71,3 +69,4 @@ echo.
 pause
 
 :end
+endlocal

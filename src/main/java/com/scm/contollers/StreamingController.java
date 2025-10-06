@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.scm.entities.Video;
 import com.scm.repsitories.VideoRepo;
 
-@RestController
+@Controller
 public class StreamingController {
 
     @Autowired
@@ -84,7 +86,7 @@ public class StreamingController {
     // UPLOAD AND SEGMENT VIDEO
     // ─────────────────────────────────────────────────────────────
     @PostMapping("/upload")
-    public String uploadSpecificVideo(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public ResponseEntity<?> uploadSpecificVideo(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         String baseDir = System.getProperty("user.dir") + File.separator + "videos" + File.separator + "input";
 
         try {
@@ -96,7 +98,8 @@ public class StreamingController {
 
             // Validate file type
             if (!file.getOriginalFilename().endsWith(".mp4")) {
-                return ResponseEntity.badRequest().body("Only MP4 files are supported.");
+                return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Only MP4 files are supported."));
             }
 
             File dest = new File(inputDir, file.getOriginalFilename());
@@ -109,7 +112,6 @@ public class StreamingController {
             // Delay for Windows file handle release
             Thread.sleep(300);
 
-            // Run segmentation batch script (FFmpeg)
             ProcessBuilder processBuilder = new ProcessBuilder("segment_video.bat", dest.getAbsolutePath());
             processBuilder.directory(new File(System.getProperty("user.dir"))); // run in project root
             processBuilder.inheritIO(); // show FFmpeg output in console
@@ -118,7 +120,7 @@ public class StreamingController {
             int exitCode = process.waitFor();
             if (exitCode != 0) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Segmentation script failed (exit code " + exitCode + ").");
+                    .body(Map.of("error", "Segmentation script failed", "exitCode", exitCode));
             }
 
             // Save video metadata in DB
@@ -130,15 +132,16 @@ public class StreamingController {
             videoRepo.save(video);
 
 
-            redirectAttributes.addFlashAttribute("successMessage", "Video uploaded and segmented successfully!");
-            
-            // Return the redirect instruction
-            return "redirect:/";
+           return ResponseEntity.ok(Map.of(
+            "message", "Video uploaded and segmented successfully!",
+            "videoId", video.getId(),
+            "playlist", video.getHlsPath()
+        ));
 
         } catch (Exception e) {
             e.printStackTrace();
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to upload video: " + e.getMessage());
-            return "redirect:/";
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "Failed to upload video", "details", e.getMessage()));
         }
     }
 
