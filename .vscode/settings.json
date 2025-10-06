@@ -4,5 +4,6 @@
         "Lakshya"
     ],
     "java.dependency.packagePresentation": "hierarchical",
-    "go.toolsEnvVars": {}
+    "go.toolsEnvVars": {},
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

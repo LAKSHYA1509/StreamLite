@@ -11,7 +11,15 @@
     <h1 class="text-3xl font-bold mb-4">Now Playing</h1>
 
     <video id="videoPlayer" controls class="w-full max-w-4xl rounded-lg shadow-lg"></video>
-
+    <div class="w-full max-w-4xl mt-6">
+    <h2 class="text-2xl font-semibold mb-4">Live Chat</h2>
+    <div id="chat-messages" class="h-64 bg-gray-700 p-4 rounded-lg overflow-y-auto mb-4">
+    </div>
+    <div class="flex">
+        <input type="text" id="message-input" class="flex-grow bg-gray-600 text-green p-2 rounded-l-lg focus:outline-none" placeholder="Type a message...">
+        <button id="send-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r-lg">Send</button>
+    </div>
+</div>
     <script th:inline="javascript">
         console.log("Player page loaded");
         /*<![CDATA[*/
@@ -29,7 +37,7 @@
             hls.loadSource(playlistUrl);
             hls.attachMedia(videoPlayer);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                videoPlayer.play();
+                console.log('Video manifest loaded successfully');
             });
         } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
             // This is a fallback for browsers that DO support HLS natively (like Safari)
@@ -37,6 +45,62 @@
         }
 
         /*]]>*/
+
+
+        // Add this inside your existing <script> block, after the HLS.js code
+
+const chatMessages = document.getElementById('chat-messages');
+const messageInput = document.getElementById('message-input');
+const sendButton = document.getElementById('send-button');
+
+// Establish a WebSocket connection to your backend
+const socket = new WebSocket('ws://localhost:8000/chat');
+
+// --- WebSocket Event Handlers ---
+
+// Fired when the connection is successfully opened
+socket.onopen = function(event) {
+    console.log('WebSocket connection opened.');
+    chatMessages.innerHTML += '<p class="text-gray-400"><em>Connected to chat!</em></p>';
+};
+
+// Fired when a message is received from the server
+socket.onmessage = function(event) {
+    console.log('Message from server:', event.data);
+    // Create a new paragraph and add it to the chat box
+    const messageElement = document.createElement('p');
+    messageElement.textContent = event.data;
+    chatMessages.appendChild(messageElement);
+    // Auto-scroll to the bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+};
+
+// Fired when the connection is closed
+socket.onclose = function(event) {
+    console.log('WebSocket connection closed.');
+    chatMessages.innerHTML += '<p class="text-green-400"><em>Disconnected from chat.</em></p>';
+};
+
+// --- Sending Messages ---
+
+function sendMessage() {
+    const message = messageInput.value;
+    if (message.trim() !== '' && socket.readyState === WebSocket.OPEN) {
+        socket.send(message); // Send the message to the server
+        messageInput.value = ''; // Clear the input field
+    } else if (message.trim() !== '' && socket.readyState !== WebSocket.OPEN) {
+        chatMessages.innerHTML += '<p class="text-red-400"><em>Chat is not connected. Please refresh the page.</em></p>';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+}
+
+sendButton.addEventListener('click', sendMessage);
+// Allow sending by pressing Enter
+messageInput.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+});
     </script>
 
 </body>
