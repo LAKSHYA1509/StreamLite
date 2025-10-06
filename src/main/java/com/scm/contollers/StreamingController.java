@@ -24,7 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.scm.entities.Video;
 import com.scm.repsitories.VideoRepo;
 
-@RestController
+@Controller
 public class StreamingController {
 
     @Autowired
@@ -96,7 +96,8 @@ public class StreamingController {
 
             // Validate file type
             if (!file.getOriginalFilename().endsWith(".mp4")) {
-                return ResponseEntity.badRequest().body("Only MP4 files are supported.");
+                redirectAttributes.addFlashAttribute("errorMessage", "Only MP4 files are supported.");
+                return "redirect:/";
             }
 
             File dest = new File(inputDir, file.getOriginalFilename());
@@ -117,8 +118,8 @@ public class StreamingController {
 
             int exitCode = process.waitFor();
             if (exitCode != 0) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Segmentation script failed (exit code " + exitCode + ").");
+                redirectAttributes.addFlashAttribute("errorMessage", "Segmentation script failed (exit code " + exitCode + ").");
+                return "redirect:/";
             }
 
             // Save video metadata in DB
