@@ -22,16 +22,13 @@
 </div>
     <script th:inline="javascript">
         console.log("Player page loaded");
-        /*<![CDATA[*/
 
-        // Get the videoId from the Spring model
         const videoId = /*[[${videoId}]]*/ 'default-video-id';
         const videoPlayer = document.getElementById('videoPlayer');
         
         // Construct the CORRECT URL to your playlist file
         const playlistUrl = `http://localhost:8000/stream/${videoId}/playlist.m3u8`;
 
-        // Check if the browser supports HLS.js
         if (Hls.isSupported()) {
             const hls = new Hls();
             hls.loadSource(playlistUrl);
@@ -40,15 +37,12 @@
                 console.log('Video manifest loaded successfully');
             });
         } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-            // This is a fallback for browsers that DO support HLS natively (like Safari)
             videoPlayer.src = playlistUrl;
         }
 
         /*]]>*/
 
-
-        // Add this inside your existing <script> block, after the HLS.js code
-
+// --- Chat Functionality ---
 const chatMessages = document.getElementById('chat-messages');
 const messageInput = document.getElementById('message-input');
 const sendButton = document.getElementById('send-button');
@@ -86,8 +80,8 @@ socket.onclose = function(event) {
 function sendMessage() {
     const message = messageInput.value;
     if (message.trim() !== '' && socket.readyState === WebSocket.OPEN) {
-        socket.send(message); // Send the message to the server
-        messageInput.value = ''; // Clear the input field
+        socket.send(message);
+        messageInput.value = '';
     } else if (message.trim() !== '' && socket.readyState !== WebSocket.OPEN) {
         chatMessages.innerHTML += '<p class="text-red-400"><em>Chat is not connected. Please refresh the page.</em></p>';
         chatMessages.scrollTop = chatMessages.scrollHeight;
