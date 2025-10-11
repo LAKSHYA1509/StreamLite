@@ -59,14 +59,29 @@ socket.onopen = function(event) {
 };
 
 // Fired when a message is received from the server
+// Find and REPLACE your old socket.onmessage function with this one
+
 socket.onmessage = function(event) {
     console.log('Message from server:', event.data);
-    // Create a new paragraph and add it to the chat box
+
+    // --- NEW: Parse the JSON string from the server ---
+    const messageData = JSON.parse(event.data);
+
+    // Create the message elements
     const messageElement = document.createElement('p');
-    messageElement.textContent = event.data;
+    const usernameSpan = document.createElement('span');
+    
+    // Style the username with the color from the server
+    usernameSpan.textContent = messageData.username + ': ';
+    usernameSpan.style.color = messageData.color;
+    usernameSpan.style.fontWeight = 'bold';
+
+    // Append the username and the message content
+    messageElement.appendChild(usernameSpan);
+    messageElement.append(document.createTextNode(messageData.content));
+    
     chatMessages.appendChild(messageElement);
-    // Auto-scroll to the bottom
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
 };
 
 // Fired when the connection is closed

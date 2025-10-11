@@ -61,7 +61,7 @@ goto :end
 
 :usage
 echo Usage: segment_video.bat input.mp4 [duration] [name]
-echo Example: segment_video.bat "video.mp4" 10 playlist
+echo Example: segment_video.bat "video.mp4" 20 playlist
 goto :end
 
 :error
