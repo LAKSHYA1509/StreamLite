@@ -1,0 +1,10 @@
+# Start the Redis service
+sudo service redis-server start
+
+bin\windows\kafka-server-start.bat config\server.properties
+
+bin\windows\kafka-storage.bat format -t XMGWVC8LRxaLXW2dE5hu1g -c config\server.properties
+
+bin\windows\kafka-server-start.bat config\server.properties
+
+cd C:\kafka\kafka_2.13-4.1.0

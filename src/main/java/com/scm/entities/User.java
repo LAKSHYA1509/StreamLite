@@ -43,6 +43,17 @@ public class User implements UserDetails {
     private String profilePic;
     private String phoneNumber;
 
+    @Column(unique=true)
+    private String streamKey;
+
+    public String getStreamKey() {
+    return streamKey;
+}
+
+public void setStreamKey(String streamKey) {
+    this.streamKey = streamKey;
+}
+
     // information
     @Getter(value = AccessLevel.NONE)
     private boolean enabled = true;

@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import com.scm.services.impl.SecurityCustomUserDetailService;
-
+import static org.springframework.security.config.Customizer.withDefaults;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -73,7 +73,12 @@ public class SecurityConfig {
             
         });
 
-         httpSecurity.csrf(AbstractHttpConfigurer::disable);
+         httpSecurity.csrf(csrf ->
+        csrf.ignoringRequestMatchers("/user/generate-stream-key")
+    );
+
+             httpSecurity.csrf(AbstractHttpConfigurer::disable);
+
         // oauth configuration
         
         httpSecurity.logout(logoutForm -> {
@@ -85,6 +90,9 @@ public class SecurityConfig {
             oauth.loginPage("/login");
             oauth.successHandler(handler);
         });
+
+            httpSecurity.cors(withDefaults());
+
         return httpSecurity.build();
 
     }

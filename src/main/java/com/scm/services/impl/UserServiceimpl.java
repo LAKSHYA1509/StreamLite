@@ -62,6 +62,7 @@ user2.setEmailVerified(user.isEmailVerified());
 user2.setPhoneVerified(user.isPhoneVerified());
 user2.setProvider(user.getProvider());
 user2.setProviderUserId(user.getProviderUserId());
+user2.setStreamKey(user.getStreamKey());
 
 // save the user in db
 User save = userRepo.save(user2);

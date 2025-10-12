@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.core.Authentication;
 
 import com.scm.entities.User;
 import com.scm.entities.Video;
@@ -92,5 +93,24 @@ public class PageController {
     @GetMapping("/player")
     public String player() {
         return "player";
+    }
+
+    @GetMapping("/user/creator_dashboard")
+public String creatorDashboard(Model model, Authentication authentication) {
+    String username = authentication.getName();
+    User user = userService.getUserByEmail(username);
+    if (user != null) {
+        model.addAttribute("streamKey", user.getStreamKey());
+    } else {
+        // Handle case when user is not found
+        model.addAttribute("streamKey", "User not found");
+    }
+    
+    return "user/creator_dashboard";
+}
+
+    @GetMapping("/live")
+    public String livePlayerPage() {
+        return "live_player";
     }
 }
