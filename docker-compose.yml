@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  # 1. Spring Boot Application Service
+  spring-app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # These variables tell Spring where to find the other services
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/StreamLite
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: la@150903
+      SPRING_REDIS_HOST: redis
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    volumes:
+      # Mount a local folder for persistent video storage
+      - ./videos:/app/videos
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+
+  # 2. PostgreSQL Database Service
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: StreamLite
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: la@150903
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  # 3. Redis Service
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  # 4. Zookeeper (Required for Kafka)
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  # 5. Kafka Service
+  kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  # 6. Nginx-RTMP Service
+  nginx-rtmp:
+    image: tiangolo/nginx-rtmp
+    ports:
+      - "1935:1935" # RTMP port for OBS
+    volumes:
+      # Mount our custom nginx.conf file
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - spring-app
+
+# Define named volumes for data persistence
+volumes:
+  postgres-data:
+  redis-data:

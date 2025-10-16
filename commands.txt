@@ -8,3 +8,46 @@ bin\windows\kafka-storage.bat format -t XMGWVC8LRxaLXW2dE5hu1g -c config\server.
 bin\windows\kafka-server-start.bat config\server.properties
 
 cd C:\kafka\kafka_2.13-4.1.0
+
+
+Yes, your application stack is completely set up and running successfully\! 🎉
+
+To answer your question, from now on, you only need **one command** to start everything, both on this device or on any other device that has the project files and Docker installed.
+
+-----
+
+### The Command to Use
+
+The main command to start all your services together is:
+
+```shell
+docker-compose up
+```
+
+This command reads your `docker-compose.yml` file and starts all the defined services (Postgres, Redis, Kafka, your Spring app, etc.) in the correct order with the correct network configuration.
+
+-----
+
+### For Future Use
+
+Here are a couple of useful variations of the command:
+
+  * **To run in the background:** If you want to start everything and get your terminal back, use the `-d` (detached) flag. This is very common for development.
+
+    ```shell
+    docker-compose up -d
+    ```
+
+  * **To rebuild if you change your code:** If you make changes to your Spring Boot application's source code, you'll want to use the `--build` flag to create a new Docker image with those changes.
+
+    ```shell
+    docker-compose up --build
+    ```
+
+  * **To stop everything:** When you're done, you can stop all the running containers with:
+
+    ```shell
+    docker-compose down
+    ```
+
+**Important Note:** You should use `docker-compose up`, **not** `docker run`. The `docker run` command is used for starting a single container, while `docker-compose` is for managing a multi-container application like yours.
