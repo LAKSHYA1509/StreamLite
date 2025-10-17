@@ -40,4 +40,20 @@ public class Video {
         this.hlsPath = hlsPath;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUploaderId(String uploaderId) {
+        this.uploaderId = uploaderId;
+    }
+
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
 }

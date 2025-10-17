@@ -73,6 +73,7 @@ public class StreamingController {
             redisTemplate.opsForValue().set(cachekey, videoBytes, 1, java.util.concurrent.TimeUnit.HOURS);
             return ResponseEntity.ok()
                     .header("Content-Type", "video/mp2t")
+                    .header("Access-Control-Allow-Origin", "*")
                     .body(videoBytes);
 
         } catch (IOException e) {
@@ -112,7 +113,11 @@ public class StreamingController {
             // Delay for Windows file handle release
             Thread.sleep(300);
 
-            ProcessBuilder processBuilder = new ProcessBuilder("segment_video.bat", dest.getAbsolutePath());
+            // Detect OS and use appropriate script
+            String os = System.getProperty("os.name").toLowerCase();
+            String workingDir = System.getProperty("user.dir");
+            String scriptName = os.contains("windows") ? "segment_video.bat" : "segment_video.sh";
+            ProcessBuilder processBuilder = new ProcessBuilder(workingDir + File.separator + scriptName, dest.getAbsolutePath());
             processBuilder.directory(new File(System.getProperty("user.dir"))); // run in project root
             processBuilder.inheritIO(); // show FFmpeg output in console
             Process process = processBuilder.start();
@@ -128,11 +133,15 @@ public class StreamingController {
             video.setTitle(file.getOriginalFilename());
             video.setUploaderId("uploader123");
             video.setUploadDate(LocalDateTime.now().toString());
-            video.setHlsPath("videos/output/playlist.m3u8");
+            // Save first to generate ID
+            video = videoRepo.save(video);
+            // Create unique HLS path for each video using video ID
+            String hlsPath = "videos/output/" + video.getId() + "/playlist.m3u8";
+            video.setHlsPath(hlsPath);
             videoRepo.save(video);
 
 
-           return ResponseEntity.ok(Map.of(
+            return ResponseEntity.ok(Map.of(
             "message", "Video uploaded and segmented successfully!",
             "videoId", video.getId(),
             "playlist", video.getHlsPath()
@@ -153,24 +162,43 @@ public class StreamingController {
         try {
             Optional<Video> videoOpt = videoRepo.findById(id);
             if (videoOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+                System.err.println("Video not found with ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            Video video = videoOpt.get();
+
+            // Check if video has been processed (has HLS path)
+            if (video.getHlsPath() == null || video.getHlsPath().isEmpty()) {
+                System.err.println("Video not processed yet, ID: " + id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Video is still being processed".getBytes());
+            }
+
+            Path playlistPath = Paths.get(video.getHlsPath());
+
+            if (!Files.exists(playlistPath)) {
+                System.err.println("Playlist file not found at: " + playlistPath);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(("Playlist file not found: " + playlistPath).getBytes());
+            }
+
+            byte[] playlistBytes = Files.readAllBytes(playlistPath);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/vnd.apple.mpegurl")
+                    .header("Access-Control-Allow-Origin", "*")
+                    .body(playlistBytes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error reading playlist file for video ID: " + id + ", error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(("Error reading playlist: " + e.getMessage()).getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Unexpected error for video ID: " + id + ", error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(("Unexpected error: " + e.getMessage()).getBytes());
         }
-
-        Video video = videoOpt.get();
-        Path playlistPath = Paths.get(video.getHlsPath());
-
-        if (!Files.exists(playlistPath)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        byte[] playlistBytes = Files.readAllBytes(playlistPath);
-        return ResponseEntity.ok()
-                .header("Content-Type", "application/vnd.apple.mpegurl")
-                .body(playlistBytes);
-
-    } catch (IOException e) {
-        e.printStackTrace();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
     }
 }

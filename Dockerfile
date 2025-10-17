@@ -16,6 +16,13 @@ RUN apt-get update && apt-get install -y ffmpeg
 # Copy the JAR file from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
 
+# Copy the video segmentation scripts
+COPY segment_video.sh .
+COPY segment_video.bat .
+
+# Make the shell script executable
+RUN chmod +x segment_video.sh
+
 # Expose the application port
 EXPOSE 8000
 

@@ -32,3 +32,4 @@ com\scm\helpers\SessionHelper.class
 com\scm\contollers\VideoController$VideoResponse.class
 com\scm\entities\User.class
 com\scm\config\RedisConfig.class
+com\scm\contollers\ErrorController.class
