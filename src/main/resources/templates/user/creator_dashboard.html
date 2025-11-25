@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+>
+<head>
+    <title>Creator Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 text-white p-10">
+    <div id="content">
+    <div class="max-w-2xl mx-auto mt-12 bg-gray-700 p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-6">Your Live Stream Setup</h1>
+
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold">RTMP Server URL</h2>
+            <p class="text-gray-300">Copy this into your streaming software's 'Server' field.</p>
+            <input type="text" readonly value="rtmp://localhost/live" class="w-full bg-gray-900 p-2 mt-2 rounded border border-gray-600">
+        </div>
+
+        <div>
+            <h2 class="text-xl font-semibold">Your Unique Stream Key</h2>
+            <p class="text-gray-300">Copy this into the 'Stream Key' field.</p>
+            <!-- We will populate this with JavaScript -->
+            <input type="text" id="stream-key-input" readonly th:value="${streamKey != null ? streamKey : 'Click button to generate'}" class="w-full bg-gray-900 p-2 mt-2 rounded border border-gray-600">
+        </div>
+
+        <button id="generate-key-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6">
+            Generate / Show My Key
+        </button>
+    </div>
+</div>
+
+    <script>
+    document.getElementById('generate-key-btn').addEventListener('click', function() {
+        // Use the new, corrected URL with credentials and proper headers
+        fetch('/user/generate-stream-key', {
+            method: 'POST',
+            credentials: 'same-origin', // Include cookies for authentication
+            headers: {
+                'Content-Type': 'application/json',
+                // CSRF token is disabled for this endpoint in SecurityConfig, but good practice to include
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    // Handle errors like "User not found"
+                    throw new Error('Could not generate key. Server responded with ' + response.status);
+                }
+                return response.text();
+            })
+            .then(key => {
+                document.getElementById('stream-key-input').value = key;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('stream-key-input').value = 'Error generating key! ' + error.message;
+            });
+    });
+</script>
+</body>
+</html>

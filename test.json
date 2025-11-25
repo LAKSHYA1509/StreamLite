@@ -1,0 +1,5 @@
+{
+  "title": "My Test Video",
+  "description": "Testing with session auth",
+  "hlsPath": "videos/output/playlist.m3u8"
+}

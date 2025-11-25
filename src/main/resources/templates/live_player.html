@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>StreamLite - Live Stream</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-8">
+
+    <h1 class="text-3xl font-bold mb-4 flex items-center">
+        <span class="relative flex h-3 w-3 mr-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+        </span>
+        LIVE NOW
+    </h1>
+
+    <video id="liveVideoPlayer" controls class="w-full max-w-4xl rounded-lg shadow-lg"></video>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const videoPlayer = document.getElementById('liveVideoPlayer');
+            
+            // ✅ THIS IS THE KEY DIFFERENCE
+            // The URL points directly to the live playlist served by NGINX
+            const livePlaylistUrl = 'http://localhost:8088/hls/live.m3u8';
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(livePlaylistUrl);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoPlayer.play();
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                // Fallback for native HLS support (like Safari)
+                videoPlayer.src = livePlaylistUrl;
+            }
+        });
+    </script>
+</body>
+</html>

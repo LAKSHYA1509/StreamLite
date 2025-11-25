@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+    <title>StreamLite - Unified Streaming Platform</title>
+</head>
+<body class="bg-white">
+    <div id="content">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl font-bold mb-6">StreamLite - Functional Test Page</h1>
+
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Upload a New Video (.mp4 only)</h2>
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" accept=".mp4" class="block w-full text-sm text-gray-400
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-violet-50 file:text-violet-700
+                    hover:file:bg-violet-100 mb-4"/>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Upload and Segment
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-semibold mb-4">Available Streams</h2>
+            <ul class="space-y-3">
+                <li th:each="video : ${videos}" class="bg-gray-600 p-3 rounded-md flex justify-between items-center">
+                    <span th:text="${video.title}">Video Title</span>
+                    <a th:href="@{/player/{id}(id=${video.id})}"
+                       class="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
+                       Watch Stream
+                    </a>
+                </li>
+            </ul>
+            <div th:if="${successMessage}" class="bg-green-500 text-white p-3 rounded-lg mb-4">
+    <p th:text="${successMessage}"></p>
+</div>
+<div th:if="${errorMessage}" class="bg-red-500 text-white p-3 rounded-lg mb-4">
+    <p th:text="${errorMessage}"></p>
+</div>
+        </div>
+
+        <div class="bg-red-700 p-6 rounded-lg shadow-lg mb-8 text-center">
+    <h2 class="text-2xl font-semibold mb-4">A Stream is LIVE!</h2>
+    <a th:href="@{/live}"
+       class="bg-white hover:bg-gray-200 text-red-700 font-bold py-2 px-6 rounded text-lg">
+       Watch Now
+    </a>
+</div>
+
+
+    </div>
+
+</body>
+</html>
+    </div>
+    
+    <script>
+        console.log("StreamLite homepage loaded");
+    </script>
+</body>
+</html>
