@@ -27,3 +27,5 @@ replay_pid*
 
 /videos
 /videos/output
+
+/hls
