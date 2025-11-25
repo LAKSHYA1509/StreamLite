@@ -4,3 +4,5 @@ Spring boot applications with live streaming HLS.js and ffmpeg working bash
 Now working on chat pub/sub
 # StreamLite
 VOD streaming
+
+research paper will be posted too
