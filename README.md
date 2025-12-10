@@ -7,5 +7,4 @@ VOD streaming
 
 Research paper will be posted too
 
-Research paper done
-Will be attached very soon
+Research 
