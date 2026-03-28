@@ -22,4 +22,4 @@ Additional: To run Locust load testing for VOD streaming:
 6. Run Locust with the VOD test script:
    locust -f vod_test.py --host=http://localhost:8000
 
-7. Open browser to http://localhost:8089 to configure and start the load test.
+7. Open browser to http://localhost:8089 to configure and start the load test.s
